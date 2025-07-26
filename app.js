@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('./db');
@@ -7,7 +8,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// Rota GET
+// Página inicial
 app.get('/', (req, res) => {
   db.query('SELECT * FROM usuarios', (err, results) => {
     if (err) throw err;
@@ -15,7 +16,7 @@ app.get('/', (req, res) => {
   });
 });
 
-// Rota POST
+// Inserção de novo usuário
 app.post('/add', (req, res) => {
   const { nome, email } = req.body;
   db.query('INSERT INTO usuarios (nome, email) VALUES (?, ?)', [nome, email], err => {
